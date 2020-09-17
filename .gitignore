@@ -1,0 +1,11 @@
+*.csv
+*.zip
+*.tar
+*.txt
+venv/
+models/
+formatted/
+checkpoint/
+.idea/
+~/
+oldlogs/
