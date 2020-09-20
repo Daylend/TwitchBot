@@ -7,7 +7,7 @@ import re
 import queue
 
 #textchannels = ["dougdougw","summit1g","jericho","morrolantv","macilus","n0thing","loltyler1"]
-textchannels = ["imaqtpie"]
+textchannels = ["ashlinpanda"]
 bots = ["Nightbot"]
 run_name = 'master'
 chats = {}
@@ -20,7 +20,7 @@ strip_links = re.compile(r'^.*((http)s?|www\.\w+\.(com|org|net|ca|me|co)|[\d\w]+
 # Strips mentions to prevent harassment
 strip_ats = re.compile(r'^.*@[\d\w_]+.*$', flags=re.MULTILINE)
 # Strip out all the bad words chat says
-strip_profanity = re.compile(r'^.*(bad words).*$'
+strip_profanity = re.compile(r'^.*.*$'
                              , flags=re.MULTILINE|re.IGNORECASE)
 
 def handle_message(message: twitch.chat.Message) -> None:
@@ -32,7 +32,7 @@ def handle_message(message: twitch.chat.Message) -> None:
     if not msg.empty():
         roll = random()
         print("Rolled {} ({})".format(roll, msg.full()))
-        if random() <= 1/5:
+        if random() <= 1/15:
             now = datetime.datetime.now()
             if lastmsg < now:
                 text = msg.get(block=False)
@@ -77,18 +77,20 @@ def genmsg(sess):
     return msg
 
 def main():
-    helix = twitch.Helix('***REMOVED***', use_cache=True)
+    helix = twitch.Helix('', use_cache=True)
     global lastmsg, msg
     lastmsg = datetime.datetime.now()
-    msg = queue.Queue(10)
+    msg = queue.Queue(100)
     sess = gpt2.start_tf_sess()
     gpt2.load_gpt2(sess, run_name=run_name)
 
     while not msg.full():
-        msg.put(genmsg(sess))
+        newmsg = genmsg(sess)
+        print(newmsg)
+        msg.put(newmsg)
 
     for channel in textchannels:
-        chat = twitch.Chat(channel="#"+channel, nickname='WoodenLongboard', oauth="***REMOVED***",
+        chat = twitch.Chat(channel="#"+channel, nickname='WoodenLongboard', oauth="",
                        helix=helix)
         chats[channel] = chat
         chats[channel].subscribe(handle_message)

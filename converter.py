@@ -21,7 +21,7 @@ strip_commands = re.compile(r'^!.+$', flags=re.MULTILINE)
 # Remove mentions so the bot doesn't harass people
 strip_ats = re.compile(r'^.*@[\d\w_]+.*$', flags=re.MULTILINE)
 # Strip out all the bad words chat says
-strip_profanity = re.compile(r'^.*(bad words).*$'
+strip_profanity = re.compile(r'^.*.*$'
                              , flags=re.MULTILINE|re.IGNORECASE)
 # Removes any number of repeated phrases so "TEST TEST TEST TEST TEST" -> "TEST"
 strip_repeated_phrases = re.compile(r'(\W|^)(.+)\s\2|\w\w{30,}', flags=re.MULTILINE|re.IGNORECASE)
